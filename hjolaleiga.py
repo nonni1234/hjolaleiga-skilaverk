@@ -99,6 +99,10 @@ while True:
             print(f"{customer.name} has a {customer.bikeRented} with {customer.rentTime} left ")
         else:
             print("Customer does not have a bike rented")
+
+    elif choice == "7":
+        print("Takk fyrir að versla hjá okkur!")
+        break
     else:
         print("Thats not a valid action")
     wait(1.5)
