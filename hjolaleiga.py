@@ -30,13 +30,16 @@ class Customer:
         self.email = email
         self.cardnumber = int(cardnumber)
         self.bikeRented = None
+        self.rentTime = None
     def rentBike(self,time, bike):
         if self.bikeRented != None:
             print("Customer already rented a bike")
             return False
         else:
             if bikes[bike] > 0:
-                customer.bikeRented = bike
+                self.bikeRented = bike
+                self.rentTime = time
+                bikes[bike] -= 1
                 return True
             else:
                 print("This bike does not exist or is sold out")
@@ -45,9 +48,10 @@ class Customer:
         if self.bikeRented == None:
             print("Customer does not have a bike rented")
         else:
-            for k,v in bikes.items():
-                if k == self.bikeRented:
-                    v += 1
+            bikes[bike] += 1
+            self.bikeRented = None
+            self.rentTime = None
+            print("Bike returned, thank you", self.name + "!")
 
 bikes = {"Mountain Bike":4,"BMX Bike": 1,"Road Bike": 2}
 customer = Customer(input("Your name:"),input("Your Email: "), input("Your Card Number: "))
@@ -59,7 +63,8 @@ while True:
     3. Request a bike on daily basis $20
     4. Request a bike on weekly basis $60
     5. Return a bike
-    6. Exit """)
+    6. Rented bike information
+    7. Exit """)
     choice = input("Choose an action: ")
     if choice == "1":
         for k,v in bikes.items():
@@ -81,13 +86,19 @@ while True:
             print("Bike has been rented")
     elif choice == "4":
         bike = input("What type of bike do you want to rent?: ")
-        time = input("How many hours do you want it for?")
+        time = input("How many weeks do you want it for?")
         time = time + " Weeks"
         rented = customer.rentBike(time, bike)
         if rented == True:
             print("Bike has been rented")
     elif choice == "5":
         customer.returnBike()
+
+    elif choice == "6":
+        if customer.bikeRented != None:
+            print(f"{customer.name} has a {customer.bikeRented} with {customer.rentTime} left ")
+        else:
+            print("Customer does not have a bike rented")
     else:
         print("Thats not a valid action")
     wait(1.5)
